@@ -1,6 +1,5 @@
 # Coal Phase-Out Capacity Expansion — Data Collection
 
-**Master's Thesis — Topic 4**  
 *Multi-Stage Stochastic Capacity Expansion Planning for Czech Coal Phase-Out*
 
 ## Contents
