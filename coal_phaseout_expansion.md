@@ -1,4 +1,4 @@
-# Thesis Topic 3: Multi-Stage Stochastic Capacity Expansion Planning for the Czech Coal Phase-Out
+# Multi-Stage Stochastic Capacity Expansion Planning for the Czech Coal Phase-Out
 
 ## 1. Topic Summary
 

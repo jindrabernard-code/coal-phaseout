@@ -1,13 +1,13 @@
 """
-build_panel.py  —  Topic 4: Multi-Stage Stochastic Capacity Expansion
-======================================================================
+build_panel.py  —  Coal Phase-Out: Multi-Stage Stochastic Capacity Expansion
+============================================================================
 Merges all collected data into a single wide-format panel CSV.
 
 Two output files are produced:
 
-  data/topic4_panel_annual.csv   —  One row per year (2015-2024)
-  data/topic4_panel_hourly.csv   —  One row per hour: hourly generation
-                                    profiles + prices (large, ~880k rows)
+  data/coal_phaseout_panel_annual.csv  —  One row per year (2015-2024)
+  data/coal_phaseout_panel_hourly.csv  —  One row per hour: hourly generation
+                                          profiles + prices (large, ~880k rows)
 
 The annual panel is the primary input for:
   - Scenario tree calibration (carbon/gas/demand uncertainty)
@@ -34,8 +34,8 @@ logging.basicConfig(level=logging.INFO,
 log = logging.getLogger(__name__)
 
 DATA_DIR     = Path(__file__).parent / "data"
-OUT_ANNUAL   = DATA_DIR / "topic4_panel_annual.csv"
-OUT_HOURLY   = DATA_DIR / "topic4_panel_hourly.csv"
+OUT_ANNUAL   = DATA_DIR / "coal_phaseout_panel_annual.csv"
+OUT_HOURLY   = DATA_DIR / "coal_phaseout_panel_hourly.csv"
 
 START_YEAR, END_YEAR = 2015, 2024
 
@@ -285,7 +285,7 @@ def build_hourly_panel() -> pd.DataFrame:
 def build_panel() -> None:
     sep = "═" * 60
     log.info(sep)
-    log.info("Topic 4 — Building Panel Datasets")
+    log.info("Coal Phase-Out — Building Panel Datasets")
     log.info(sep)
 
     # Annual panel

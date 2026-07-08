@@ -1,4 +1,4 @@
-# Data Legend — Topic 4: Multi-Stage Stochastic Capacity Expansion (Czech Coal Phase-Out)
+# Data Legend — Multi-Stage Stochastic Capacity Expansion (Czech Coal Phase-Out)
 
 Generated: 2026-07-03 | Period covered: 2015–2024
 
@@ -271,4 +271,4 @@ download_eua.py  →  EUA daily prices (ICAP Allowance Price Explorer API)
 download_dea.py  →  DEA Technology Catalogue Excel data sheets (ens.dk)
 ```
 
-Re-run with `python collect_data.py` in the `topic4_coal_phaseout/` folder. Already-existing files are skipped.
+Re-run with `python collect_data.py` in the repository root. Already-existing files are skipped.

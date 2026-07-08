@@ -18,8 +18,8 @@
 | `data/technology_costs/` | **NREL ATB 2024 full CSV** + DEA quick-reference summary |
 | `data/danish_energy_agency/` | **DEA Technology Catalogue Excel data sheets** (el/DH, storage, socio-economics) |
 | `data/ceps_documents/` | ČEPS study documents relevance guide |
-| `data/topic4_panel_annual.csv` | **Annual panel — 10 years × 117 columns** |
-| `data/topic4_panel_hourly.csv` | **Hourly panel — 87,671 hours × 24 columns** |
+| `data/coal_phaseout_panel_annual.csv` | **Annual panel — 10 years × 117 columns** |
+| `data/coal_phaseout_panel_hourly.csv` | **Hourly panel — 87,671 hours × 24 columns** |
 | `data/DATA_LEGEND.md` | Full documentation of all variables, units, sources |
 
 ## Quick Start

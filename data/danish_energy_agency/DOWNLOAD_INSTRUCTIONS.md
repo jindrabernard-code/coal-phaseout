@@ -14,9 +14,9 @@ The DEA publishes Excel files on their website but the direct download URLs chan
 **Action:**  
 - Click "Download technology data for electricity and district heating production"  
 - Save the Excel file as: `technology_data_electricity_generation.xlsx`
-- Place it in this folder: `topic4_coal_phaseout/data/danish_energy_agency/`
+- Place it in this folder: `data/danish_energy_agency/`
 
-**Relevant sheets for Topic 4 (Coal Phase-Out):**
+**Relevant sheets for the coal phase-out model:**
 | Sheet | Content | Use in model |
 |---|---|---|
 | Coal CHP | Capital cost, O&M, efficiency, lifetime (hard coal / lignite) | Retirement cost of existing coal |
@@ -45,7 +45,7 @@ The DEA publishes Excel files on their website but the direct download URLs chan
 - Save as: `technology_data_energy_storage.xlsx`
 - Place in this folder
 
-**Relevant for Topic 1 (Battery Arbitrage):**
+**Relevant for the battery-arbitrage project:**
 - Lithium-ion battery — capital cost, round-trip efficiency, cycle life, DoD
 - Pumped hydro — cost, efficiency
 

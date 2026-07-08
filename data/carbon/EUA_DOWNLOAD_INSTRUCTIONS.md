@@ -64,7 +64,7 @@ Value column: `eua_settle_eur_t` (EUR per tonne CO2)
 
 ---
 
-## Why EUA is critical for Topic 4
+## Why EUA is critical for the coal phase-out model
 
 The coal phase-out model needs carbon price as a primary stochastic driver:
 - Carbon cost = EUA price × carbon intensity (tCO2/MWh per fuel)

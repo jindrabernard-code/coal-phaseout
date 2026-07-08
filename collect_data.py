@@ -1,7 +1,7 @@
 """
-collect_data.py  —  Topic 4: Multi-Stage Stochastic Capacity Expansion (Czech Coal Phase-Out)
+collect_data.py  —  Multi-Stage Stochastic Capacity Expansion (Czech Coal Phase-Out)
 ==============================================================================================
-Downloads all data needed for the stochastic capacity-expansion-planning thesis
+Downloads all data needed for the stochastic capacity-expansion-planning project
 on the Czech coal phase-out under carbon/gas price and demand uncertainty.
 
 Data collected
@@ -11,7 +11,7 @@ Data collected
 3. Crude oil prices (Brent)     → data/gas/brent_monthly.csv       (monthly USD/bbl, EIA/FRED)
 4. Czech installed capacity     → data/capacity/cz_installed_*.csv (annual MW by fuel, ENTSO-E)
 5. Czech actual generation      → data/generation/cz_gen_*.csv     (hourly MW by fuel, ENTSO-E)
-6. Czech load profiles          → data/generation/cz_load.csv      (already in topic1, symlinked)
+6. Czech load profiles          → data/generation/cz_load.csv      (already in the battery-arbitrage repo)
 7. DEA Technology Catalogue     → data/technology_costs/dea_*.xlsx (CAPEX/OPEX, Danish Energy Agency)
 8. NREL ATB summary             → data/technology_costs/nrel_atb.csv (US reference tech costs)
 9. Ember yearly electricity data→ data/generation/ember_yearly_cz.csv (annual generation/capacity)
@@ -596,7 +596,7 @@ def collect_ceps_reports(out_dir: Path) -> None:
 def main() -> None:
     sep = "═" * 60
     log.info(sep)
-    log.info("Topic 4 — Czech Coal Phase-Out: Data Collection")
+    log.info("Czech Coal Phase-Out — Data Collection")
     log.info(f"Period  : {START_YEAR}–{END_YEAR}")
     log.info(f"Output  : {DATA_DIR.resolve()}")
     if ENTSOE_KEY:

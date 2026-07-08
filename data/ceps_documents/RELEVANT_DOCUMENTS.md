@@ -1,4 +1,4 @@
-# ČEPS Study Documents — Relevance Assessment for Topic 4
+# ČEPS Study Documents — Relevance Assessment
 ## Multi-Stage Stochastic Capacity Expansion / Coal Phase-Out
 
 ---
@@ -28,7 +28,7 @@
 
 ---
 
-## ❌ NOT RELEVANT for Topic 4
+## ❌ NOT RELEVANT for the coal phase-out model
 
 These documents relate to **smart metering, AMM data quality, telecommunications, and DSO measurement infrastructure** — not relevant for coal phase-out capacity planning:
 
@@ -51,7 +51,7 @@ All ČEPS study documents:
 **https://www.ceps.cz/cs/publikace-a-data → Studie a analýzy**
 
 Select the documents marked ✅ above and save to:
-`topic4_coal_phaseout/data/ceps_documents/`
+`data/ceps_documents/`
 
 ---
 
