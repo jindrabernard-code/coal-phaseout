@@ -8,7 +8,8 @@ Generated: 2026-07-03 | Period covered: 2015–2024
 
 Data is collected automatically by `collect_data.py` from free, publicly accessible APIs.  
 ENTSO-E capacity/generation data requires a free ENTSO-E API key (see Section 5).  
-EU ETS (EUA) carbon prices require manual download (see Section 1).
+EU ETS (EUA) carbon prices are downloaded by `download_eua.py` (ICAP, see Section 1b).  
+DEA Technology Catalogue Excels are downloaded by `download_dea.py` (see Section 6a).
 
 ---
 
@@ -26,11 +27,15 @@ License: CC BY 4.0.
 **Range:** Approx. 0–700 EUR/MWh; extreme spike to 400-700 EUR/MWh during energy crisis (Aug–Sep 2022).  
 **URL:** https://files.ember-energy.org/public-downloads/price/outputs/european_wholesale_electricity_price_data_daily.csv
 
-### 1b. `eua_daily.csv` — EU ETS EUA Carbon Price ⚠️ MANUAL DOWNLOAD REQUIRED
+### 1b. `eua_daily.csv` — EU ETS EUA Carbon Price ✓
 
 **Purpose:** Primary uncertainty variable for the capacity expansion scenario tree.  
+**Source:** ICAP Allowance Price Explorer API (`download_eua.py`) — EEX spot until 2018, ICE end-of-day from 2019. Both series merged into one continuous daily series.  
+**Rows:** 2,512 (2015-01-02 – 2024-12-16)  
 **Unit:** EUR/tCO2  
-**Expected format:** CSV with columns `date` (YYYY-MM-DD), `eua_eur_per_tco2`  
+**Format:** CSV with columns `date` (YYYY-MM-DD), `eua_eur_per_tco2`  
+**Observed range:** 4.38 – 109.94 EUR/tCO2  
+**Panel integration:** annual stats (`eua_avg/max/min/p25/p75_eur_t`) in the annual panel; daily forward-filled `eua_eur_t` in the hourly panel.  
 **Historical ranges:**
 - 2015–2017: ~5–10 EUR/tCO2 (EU ETS reform, low prices)
 - 2018–2019: ~15–25 EUR/tCO2 (MSR implementation)
@@ -39,9 +44,9 @@ License: CC BY 4.0.
 - 2022–2023: ~55–100 EUR/tCO2 (energy crisis peak)
 - 2024: ~55–75 EUR/tCO2
 
-**How to download:**
+**Fallback options if the ICAP API stops working:**
 
-**Option A — Ember Energy (recommended):**
+**Option A — Ember Energy:**
 1. Go to: https://ember-energy.org/data/european-electricity-prices-and-costs/
 2. Download the data for EUA carbon prices from the tool
 
@@ -171,11 +176,17 @@ License: CC BY 4.0
 
 ## 6. Technology Cost Assumptions — `data/technology_costs/`
 
-### 6a. `DEA_TECH_CATALOGUE_INFO.md` ✓
+### 6a. DEA Technology Catalogue ✓
 
-Contains key CAPEX/OPEX/efficiency assumptions from the Danish Energy Agency (DEA) Technology Catalogue 2024.  
-**Manual download:** https://ens.dk/en/our-services/projections-and-models/technology-data  
-File: "Technology data for generation of electricity and district heating" (~7 MB Excel)
+Full Excel data sheets downloaded by `download_dea.py` into `data/danish_energy_agency/`:
+
+| File | Content |
+|---|---|
+| `technology_data_electricity_generation.xlsx` | El & district heating generation data sheet (June 2026, 78 sheets) |
+| `technology_data_energy_storage.xlsx` | Energy storage data sheet (20 sheets, incl. Li-ion batteries) |
+| `dea_socioeconomic_assumptions.xlsx` | Socio-economic assumptions: fuel prices, CO2 trajectory, discount rate |
+
+`DEA_TECH_CATALOGUE_INFO.md` additionally contains key CAPEX/OPEX/efficiency assumptions as a quick reference.
 
 **Key assumptions (2023 EUR, DEA 2024):**
 
@@ -192,11 +203,11 @@ File: "Technology data for generation of electricity and district heating" (~7 M
 
 **Sources:** DEA Technology Catalogue 2024, IEA World Energy Outlook 2023, IRENA Renewable Power Generation Costs 2023
 
-### 6b. NREL ATB (Annual Technology Baseline) — NOT COLLECTED
+### 6b. NREL ATB (Annual Technology Baseline) ✓
 
-**Manual download:** https://atb.nrel.gov/electricity/2024/data  
-**Note:** US-focused data; useful as international cross-check on solar/wind/battery costs.  
-Save as: `data/technology_costs/nrel_atb_2024_summary.csv`
+**File:** `data/technology_costs/nrel_atb_2024.csv` (98.5 MB, ATB 2024 v3.0.0)  
+**Source:** OEDI data lake — `https://oedi-data-lake.s3.amazonaws.com/ATB/electricity/csv/2024/v3.0.0/ATBe.csv`  
+**Note:** US-focused data; useful as international cross-check on solar/wind/battery costs. Long format: technology × scenario × year × metric (CAPEX, O&M, capacity factor, LCOE).
 
 ---
 
@@ -212,9 +223,9 @@ Save as: `data/technology_costs/nrel_atb_2024_summary.csv`
 | TTF gas futures (daily) | ✓ | 1 CSV (1,808 days) | Daily |
 | Brent crude oil (daily) | ✓ | 1 CSV (2,540 days) | Daily |
 | Technology costs (DEA key assumptions) | ✓ | Markdown summary | Single snapshot |
-| EU ETS EUA carbon price | ⚠️ MANUAL | — | See Section 1b |
-| DEA Technology Catalogue (full Excel) | ⚠️ MANUAL | — | See Section 6a |
-| NREL ATB (US reference costs) | ⚠️ MANUAL | — | See Section 6b |
+| EU ETS EUA carbon price | ✓ | 1 CSV (2,512 days) | Daily, 2015–2024 |
+| DEA Technology Catalogue (full Excel) | ✓ | 3 XLSX | Per-technology data sheets |
+| NREL ATB (US reference costs) | ✓ | 1 CSV (98.5 MB) | Annual projections to 2050 |
 | ČEPS 10-year development plan | ⚠️ MANUAL | DOWNLOAD_LINKS.md | PDF |
 | Czech NECP scenarios | ⚠️ MANUAL | DOWNLOAD_LINKS.md | PDF |
 
@@ -228,7 +239,7 @@ The key uncertain parameters and their calibration sources:
 
 | Parameter | Distribution | Calibration Data | Typical approach |
 |---|---|---|---|
-| EU ETS carbon price | Mean-reverting (Ornstein-Uhlenbeck) | `eua_daily.csv` (manual) | Fit κ, μ, σ to 2015–2024 history |
+| EU ETS carbon price | Mean-reverting (Ornstein-Uhlenbeck) | `eua_daily.csv` | Fit κ, μ, σ to 2015–2024 history |
 | TTF gas price | GBM or regime-switching | `ttf_daily.csv` | Fit log-normal parameters or 2-regime Markov |
 | Electricity demand growth | Trend + uncertainty band | `ember_yearly_cz.csv` (Variable=Demand) | ±X% annual growth rates |
 | Coal phase-out date | Discrete branch | Czech NECP, Coal Commission | 2030 / 2033 / 2038 branches |
@@ -255,6 +266,9 @@ collect_data.py
 ├── collect_ember_yearly()       →  Ember Energy files.ember-energy.org
 ├── collect_tech_costs()         →  DEA info summary (URLs for manual download)
 └── collect_ceps_reports()       →  DOWNLOAD_LINKS.md (manual instructions)
+
+download_eua.py  →  EUA daily prices (ICAP Allowance Price Explorer API)
+download_dea.py  →  DEA Technology Catalogue Excel data sheets (ens.dk)
 ```
 
 Re-run with `python collect_data.py` in the `topic4_coal_phaseout/` folder. Already-existing files are skipped.

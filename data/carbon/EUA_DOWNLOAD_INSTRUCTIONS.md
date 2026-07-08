@@ -1,9 +1,16 @@
 # EUA Carbon Prices — Download Instructions
 
+> **RESOLVED (2026-07-08):** `eua_daily.csv` (2,512 daily observations,
+> 2015-01-02 – 2024-12-16, EUR/tCO2) is now downloaded automatically by
+> `download_eua.py` from the ICAP Allowance Price Explorer API
+> (EEX spot until 2018 + ICE end-of-day from 2019). It is merged into both
+> panels. The instructions below are kept as fallback options.
+
 ## What is available programmatically
 
 | File | Source | Coverage | Status |
 |---|---|---|---|
+| `eua_daily.csv` | ICAP Allowance Price Explorer (EEX + ICE) | 2015–2024 daily | ✅ Downloaded |
 | `cz_da_electricity_price_eur_mwh.csv` | Ember Energy | 2015–2024 daily | ✅ Downloaded |
 | `co2_etc_proxy_gbp.csv` | Yahoo Finance (CO2.L ETC) | 2021-10–2024 daily | ✅ Downloaded |
 

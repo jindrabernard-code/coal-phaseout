@@ -134,6 +134,21 @@ def build_annual_panel() -> pd.DataFrame:
             if not yr_data.empty:
                 records[yr]["brent_avg_usd_bbl"] = yr_data.iloc[:, 0].mean()
 
+    # ── 1c-bis. Annual EUA carbon price statistics (ICAP, EUR/tCO2) ───────────
+    eua_path = DATA_DIR / "carbon" / "eua_daily.csv"
+    if eua_path.exists():
+        eua = pd.read_csv(eua_path, index_col=0, parse_dates=True)
+        eua.index = pd.to_datetime(eua.index)
+        for yr in range(START_YEAR, END_YEAR + 1):
+            yr_data = eua[eua.index.year == yr]
+            if not yr_data.empty:
+                records[yr]["eua_avg_eur_t"] = yr_data.iloc[:, 0].mean()
+                records[yr]["eua_max_eur_t"] = yr_data.iloc[:, 0].max()
+                records[yr]["eua_min_eur_t"] = yr_data.iloc[:, 0].min()
+                records[yr]["eua_p25_eur_t"] = yr_data.iloc[:, 0].quantile(0.25)
+                records[yr]["eua_p75_eur_t"] = yr_data.iloc[:, 0].quantile(0.75)
+        log.info(f"  EUA carbon price: {len(eua)} daily obs → annual stats")
+
     # ── 1d. Annual averages of CZ electricity price ───────────────────────────
     cz_elec_path = DATA_DIR / "carbon" / "cz_da_electricity_price_eur_mwh.csv"
     if cz_elec_path.exists():
@@ -235,6 +250,16 @@ def build_hourly_panel() -> pd.DataFrame:
             hourly = hourly.join(ttf_hourly, how="left")
         except Exception as exc:
             log.warning(f"  TTF hourly parse error: {exc}")
+
+    # Add EUA daily carbon price (broadcast daily to hourly)
+    eua_path = DATA_DIR / "carbon" / "eua_daily.csv"
+    if eua_path.exists():
+        eua = pd.read_csv(eua_path, index_col=0, parse_dates=True)
+        eua.index = pd.to_datetime(eua.index)
+        eua.columns = ["eua_eur_t"]
+        eua_hourly = eua.reindex(hourly.index, method="ffill")
+        hourly = hourly.join(eua_hourly, how="left")
+        log.info(f"  Added EUA carbon price (daily ffill → hourly)")
 
     # Derive capacity factors (solar and wind)
     cap_wide_path = DATA_DIR / "capacity" / "cz_installed_capacity_wide.csv"
